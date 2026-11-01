@@ -1,0 +1,128 @@
+import type { CategoryKey, Product } from '@/types';
+
+const photo = (id: number) =>
+  `https://images.pexels.com/photos/${id}/pexels-photo-${id}.jpeg?auto=compress&cs=tinysrgb&h=650&w=940`;
+
+type ProductSeed = Omit<Product, 'createdAt' | 'deliveryDays' | 'images'> & { imageIds: [number, number] };
+
+function item(
+  id: string,
+  name: string,
+  brand: string,
+  category: CategoryKey,
+  subcategory: string,
+  price: number,
+  originalPrice: number,
+  rating: number,
+  reviewCount: number,
+  stock: number,
+  imageIds: [number, number],
+  description: string,
+  specs: Record<string, string>,
+  flags = '',
+): ProductSeed {
+  return {
+    id,
+    name,
+    brand,
+    category,
+    subcategory,
+    price,
+    originalPrice,
+    rating,
+    reviewCount,
+    stock,
+    imageIds,
+    description,
+    specs,
+    featured: flags.includes('F'),
+    bestSeller: flags.includes('B'),
+  };
+}
+
+const SEEDS: ProductSeed[] = [
+  item('aura-anc-headphones', 'Aura ANC Over-Ear Headphones', 'Sonivo', 'electronics', 'Headphones', 4999, 7999, 4.5, 2310, 42, [3394650, 3394657], 'Wireless over-ear headphones with adaptive noise cancelling and up to 40 hours of battery.', { Connectivity: 'Bluetooth 5.3', Battery: '40 hours', Weight: '265 g' }, 'FB'),
+  item('nimbus-studio-headphones', 'Nimbus Studio Headphones', 'Kestrel', 'electronics', 'Headphones', 8499, 12999, 4.6, 1184, 18, [15840650, 3394648], 'Studio-tuned sound with memory foam cushions and a foldable, travel-ready frame.', { Connectivity: 'Bluetooth 5.2', Driver: '40 mm', Weight: '290 g' }, 'F'),
+  item('pulse-lite-earbuds', 'Pulse Lite True Wireless Earbuds', 'Kestrel', 'electronics', 'Headphones', 2199, 3499, 4.2, 5620, 120, [3394653, 3756912], 'Compact earbuds with a snug fit, touch controls and a charging case.', { Connectivity: 'Bluetooth 5.3', Battery: '7 hours + case', Water: 'IPX4' }, 'B'),
+  item('sonic-wireless-headset', 'Sonic Wireless Headset with Mic', 'Varro', 'electronics', 'Headphones', 3299, 4999, 4.3, 873, 35, [3756945, 3394653], 'Office-ready headset with a noise-reducing boom mic and all-day comfort.', { Connectivity: '2.4 GHz + Bluetooth', Battery: '25 hours', Mic: 'Noise-reducing boom' }),
+  item('bass-reader-headphones', 'Bass Reader On-Ear Headphones', 'Sonivo', 'electronics', 'Headphones', 1799, 2999, 4.0, 402, 60, [3394662, 3394650], 'Lightweight on-ear headphones with punchy bass and a foldable headband.', { Connectivity: 'Bluetooth 5.0', Battery: '30 hours', Weight: '190 g' }),
+  item('orbit-x12-5g', 'Orbit X12 5G Smartphone', 'Zentra', 'electronics', 'Smartphones', 24999, 31999, 4.4, 3921, 30, [30909364, 8833423], '6.7-inch AMOLED display, triple camera and a day-long battery in a slim body.', { Display: '6.7" AMOLED 120Hz', Storage: '128 GB', Camera: '50 MP triple' }, 'FB'),
+  item('nova-pro-max', 'Nova Pro Max 256GB', 'Lumen', 'electronics', 'Smartphones', 74999, 84999, 4.7, 2870, 12, [11120516, 9403817], 'Flagship performance with a pro-grade camera system and titanium-finish frame.', { Display: '6.9" OLED', Storage: '256 GB', Camera: '48 MP + telephoto' }, 'F'),
+  item('vela-s-phone', 'Vela S 128GB Smartphone', 'Zentra', 'electronics', 'Smartphones', 18999, 22999, 4.3, 1502, 45, [8833423, 30909364], 'Balanced everyday phone with a bright display and fast charging.', { Display: '6.5" LCD', Storage: '128 GB', Charging: '45 W' }),
+  item('lumen-air-2', 'Lumen Air 2', 'Lumen', 'electronics', 'Smartphones', 12999, 16999, 4.1, 2210, 70, [14979013, 14979020], 'Ultra-thin design with a clean software experience and reliable battery life.', { Display: '6.4" OLED', Storage: '128 GB', Battery: '4800 mAh' }),
+  item('atlas-mini', 'Atlas Mini Compact Phone', 'Zentra', 'electronics', 'Smartphones', 9499, 12999, 4.0, 980, 55, [9403817, 1796469], 'A pocket-friendly phone with a sharp screen and one-hand friendly layout.', { Display: '5.8" OLED', Storage: '128 GB', Weight: '162 g' }),
+  item('pixa-lite-5g', 'Pixa Lite 5G', 'Pixa', 'electronics', 'Smartphones', 7999, 10499, 3.9, 640, 80, [1368484, 1796469], 'Affordable 5G phone with a smooth 90Hz display and dependable cameras.', { Display: '6.5" 90Hz', Storage: '64 GB', Camera: '50 MP dual' }, 'B'),
+  item('stellar-5g-ultra', 'Stellar 5G Ultra', 'Pixa', 'electronics', 'Smartphones', 15499, 19999, 4.5, 1650, 25, [1796469, 14979020], 'High refresh display, low-light camera and a fast processor for gaming.', { Display: '6.7" 120Hz', Storage: '256 GB', Charging: '67 W' }),
+  item('vantage-slim-14', 'Vantage Slim 14 Laptop', 'Corex', 'electronics', 'Laptops', 58999, 69999, 4.5, 1290, 22, [12200696, 2659939], 'Lightweight 14-inch laptop with a bright display and all-day battery.', { Processor: 'Octa-core', Memory: '16 GB RAM', Storage: '512 GB SSD' }, 'F'),
+  item('desk-pro-16', 'Desk Pro 16 Laptop', 'Corex', 'electronics', 'Laptops', 74999, 84999, 4.6, 740, 15, [2659939, 12200696], 'Large-screen productivity laptop built for multitasking and creative work.', { Processor: 'Octa-core', Memory: '32 GB RAM', Storage: '1 TB SSD' }),
+  item('canvas-air-13', 'Canvas Air 13 Ultrabook', 'Aperture', 'electronics', 'Laptops', 62999, 72999, 4.4, 512, 28, [29283981, 29765806], 'Fanless ultrabook with a color-accurate display and silent operation.', { Processor: 'Quad-core', Memory: '16 GB RAM', Display: '13.3" 2.5K' }),
+  item('apex-gaming-15', 'Apex Gaming Laptop 15', 'Corex', 'electronics', 'Laptops', 98999, 114999, 4.6, 890, 10, [29765802, 31395489], 'Gaming laptop with a high refresh display and dedicated graphics.', { Graphics: 'RTX-class GPU', Display: '15.6" 144Hz', Memory: '32 GB RAM' }, 'B'),
+  item('pulse-watch-3', 'Pulse Watch Series 3', 'Zentra', 'electronics', 'Smartwatches', 6999, 9999, 4.3, 2210, 50, [11677077, 12564670], 'Always-on smartwatch with heart-rate tracking, GPS and a week of battery.', { Display: '1.9" AMOLED', Battery: '7 days', Sensors: 'Heart rate, GPS' }, 'FB'),
+  item('fitband-active', 'Fitband Active Tracker', 'Varro', 'electronics', 'Smartwatches', 2499, 3999, 4.0, 3650, 90, [12564670, 31541678], 'Slim fitness band with sleep tracking, step counts and workout modes.', { Display: '1.4" color', Battery: '14 days', Water: '5 ATM' }, 'B'),
+  item('classic-gold-analog', 'Classic Gold Analog Watch', 'Aperture', 'electronics', 'Smartwatches', 12999, 15999, 4.7, 410, 12, [1136589, 179908], 'Timeless gold-tone analog watch with a sapphire crystal and leather strap.', { Case: '40 mm gold-tone', Movement: 'Quartz', Water: '50 m' }),
+  item('boombox-pro-speaker', 'Boombox Pro Bluetooth Speaker', 'Sonivo', 'electronics', 'Speakers', 14999, 19999, 4.5, 1120, 26, [29581125, 33298190], 'Room-filling portable speaker with deep bass and 24-hour playtime.', { Output: '80 W', Battery: '24 hours', Water: 'IP67' }, 'F'),
+  item('retro-radio-bt', 'Retro Radio Bluetooth Speaker', 'Nordwell', 'electronics', 'Speakers', 3999, 5499, 4.2, 730, 40, [12502430, 33298190], 'Vintage-styled radio speaker with FM tuning and Bluetooth streaming.', { Output: '20 W', Connectivity: 'Bluetooth + FM', Battery: '12 hours' }),
+  item('vortex-mech-keyboard', 'Vortex Mechanical Keyboard', 'Corex', 'electronics', 'Computer Accessories', 4999, 6999, 4.4, 1560, 34, [18311171, 4225229], 'Hot-swappable mechanical keyboard with per-key RGB and aluminium frame.', { Switches: 'Hot-swappable red', Layout: '87-key', Connectivity: 'USB-C + Bluetooth' }, 'F'),
+  item('gamer-combo-kb-mouse', 'Gamer Keyboard and Mouse Combo', 'Corex', 'electronics', 'Computer Accessories', 3499, 4999, 4.1, 2240, 48, [12877898, 3143791], 'Full-size keyboard and optical mouse bundle with programmable macro keys.', { Connectivity: 'USB', DPI: '12,000', Layout: 'Full-size' }),
+  item('stream-gamepad', 'Stream Gamepad Controller', 'Corex', 'electronics', 'Computer Accessories', 2799, 3499, 4.3, 980, 60, [4225229, 18311171], 'Ergonomic wireless gamepad with textured grips and low-latency response.', { Connectivity: 'Bluetooth + USB', Battery: '30 hours', Compatibility: 'PC, Android' }),
+  item('curve-27-monitor', 'Curve 27 180Hz Monitor', 'Aperture', 'electronics', 'Monitors', 17999, 24999, 4.5, 430, 14, [5552789, 3143791], '27-inch QHD monitor with a 180Hz refresh rate and adaptive sync.', { Panel: '27" IPS QHD', Refresh: '180 Hz', Ports: 'HDMI, DisplayPort' }, 'B'),
+  item('linen-relaxed-shirt', 'Relaxed Linen Shirt', 'Northline', 'fashion', "Men's Clothing", 1299, 2499, 4.2, 620, 75, [4295983, 28967487], 'Breathable linen shirt with a relaxed cut for warm-weather days.', { Material: '100% linen', Fit: 'Relaxed', Care: 'Machine wash' }, 'F'),
+  item('essential-oxford-shirt', 'Essential Oxford Shirt', 'Northline', 'fashion', "Men's Clothing", 1399, 2199, 4.4, 1100, 64, [28967487, 4295983], 'Classic oxford shirt in a soft cotton weave for office or weekend wear.', { Material: 'Cotton', Fit: 'Regular', Collar: 'Button-down' }, 'B'),
+  item('printed-button-up', 'Printed Button-Up Shirt', 'Ridgeway', 'fashion', "Men's Clothing", 1499, 2299, 4.0, 310, 52, [19461512, 15047379], 'Statement print button-up with a soft drape and a modern fit.', { Material: 'Viscose blend', Fit: 'Slim', Pattern: 'Printed' }),
+  item('patterned-casual-shirt', 'Patterned Casual Shirt', 'Ridgeway', 'fashion', "Men's Clothing", 1199, 1999, 3.9, 260, 40, [15047379, 19461512], 'Easy-to-style casual shirt with a subtle geometric pattern.', { Material: 'Cotton blend', Fit: 'Regular', Pattern: 'Geometric' }),
+  item('everyday-black-sneakers', 'Everyday Black Sneakers', 'Stride', 'fashion', "Men's Shoes", 2499, 3999, 4.3, 1890, 38, [19845610, 27204251], 'Minimal low-top sneakers with cushioned insoles and a grippy outsole.', { Upper: 'Leather-look', Sole: 'Rubber', Closure: 'Lace-up' }, 'B'),
+  item('rainbow-leather-sneakers', 'Rainbow Leather Sneakers', 'Stride', 'fashion', "Men's Shoes", 3299, 4499, 4.1, 420, 22, [26775749, 27516985], 'Bold striped leather sneakers that pair well with denim and chinos.', { Upper: 'Genuine leather', Sole: 'EVA', Closure: 'Lace-up' }),
+  item('canvas-high-top', 'Canvas High-Top Sneakers', 'Stride', 'fashion', "Men's Shoes", 1999, 2999, 4.0, 760, 45, [28488349, 1464625], 'Retro high-top canvas sneakers with a vulcanised sole.', { Upper: 'Canvas', Sole: 'Vulcanised rubber', Closure: 'Lace-up' }),
+  item('mustard-street-sneakers', 'Mustard Street Sneakers', 'Stride', 'fashion', "Men's Shoes", 2799, 3799, 4.2, 300, 30, [27516985, 26775749], 'Warm mustard sneakers with a suede-look upper and breathable lining.', { Upper: 'Suede-look', Sole: 'Rubber', Closure: 'Lace-up' }),
+  item('urban-leather-bag', 'Urban Leather Crossbody Bag', 'Ridgeway', 'fashion', 'Bags', 2999, 4999, 4.5, 530, 18, [26965825, 19915586], 'Compact crossbody in smooth leather with an adjustable strap and zip pockets.', { Material: 'Leather', Dimensions: '24 x 16 x 6 cm', Closure: 'Zip' }, 'F'),
+  item('striped-midi-dress', 'Striped Midi Dress', 'Lunare', 'fashion', "Women's Clothing", 1799, 2999, 4.3, 880, 56, [4428388, 4458518], 'Light striped midi dress with a flowy skirt and adjustable waist tie.', { Material: 'Cotton blend', Length: 'Midi', Care: 'Hand wash' }, 'F'),
+  item('black-evening-dress', 'Black Evening Dress', 'Lunare', 'fashion', "Women's Clothing", 2499, 3999, 4.5, 510, 24, [19793984, 19793985], 'Elegant black evening dress with a fitted bodice and a graceful hemline.', { Material: 'Polyester blend', Length: 'Knee', Occasion: 'Evening' }, 'B'),
+  item('boho-floral-skirt-set', 'Boho Floral Skirt Set', 'Lunare', 'fashion', "Women's Clothing", 1899, 2799, 4.1, 390, 42, [4458518, 4428388], 'Matching floral top and skirt set with a breezy, relaxed silhouette.', { Material: 'Rayon', Set: 'Top and skirt', Care: 'Machine wash' }),
+  item('embroidered-denim-dress', 'Embroidered Denim Dress', 'Lunare', 'fashion', "Women's Clothing", 2199, 3299, 4.0, 215, 33, [8281773, 6071513], 'Denim dress with red embroidery details and a structured waist.', { Material: 'Denim', Length: 'Midi', Detail: 'Embroidery' }),
+  item('floral-maxi-dress', 'Floral Maxi Dress', 'Lunare', 'fashion', "Women's Clothing", 2299, 3499, 4.4, 1040, 46, [26888866, 36448933], 'Long floral dress with a V-neck and lightweight fabric for summer outings.', { Material: 'Viscose', Length: 'Maxi', Neckline: 'V-neck' }, 'B'),
+  item('modest-satin-dress', 'Modest Satin Dress', 'Lunare', 'fashion', "Women's Clothing", 1999, 2999, 4.2, 290, 28, [6071513, 19793985], 'Full-length satin dress with long sleeves and a soft drape.', { Material: 'Satin', Length: 'Full', Sleeves: 'Long' }),
+  item('pour-over-coffee-maker', 'Pour-Over Coffee Maker', 'Brewhaus', 'home-kitchen', 'Kitchen Appliances', 2199, 2999, 4.4, 1620, 60, [35240184, 20557063], 'Glass pour-over brewer with a reusable stainless filter and sturdy base.', { Capacity: '600 ml', Material: 'Borosilicate glass', Filter: 'Stainless steel' }, 'F'),
+  item('espresso-machine-pro', 'Espresso Machine Pro', 'Brewhaus', 'home-kitchen', 'Kitchen Appliances', 18999, 24999, 4.6, 880, 14, [36573009, 32103303], 'Pump espresso machine with steam wand and a 15-bar extraction system.', { Pressure: '15 bar', Capacity: '1.5 L', Power: '1350 W' }, 'FB'),
+  item('siphon-coffee-set', 'Siphon Coffee Set', 'Brewhaus', 'home-kitchen', 'Kitchen Appliances', 3499, 4499, 4.3, 210, 20, [13943377, 16645944], 'Vacuum siphon coffee set for a theatrical, clean-tasting brew.', { Capacity: '5 cups', Material: 'Glass and steel', Burner: 'Alcohol or gas' }),
+  item('glass-carafe-filters', 'Glass Carafe with Filters', 'Brewhaus', 'home-kitchen', 'Kitchen Appliances', 1299, 1799, 4.2, 340, 65, [16645944, 35240184], 'Classic pour-over carafe with wood collar and paper filters included.', { Capacity: '800 ml', Material: 'Glass', Includes: '100 filters' }),
+  item('two-slice-toaster', 'Two-Slice Toaster', 'Crumbly', 'home-kitchen', 'Kitchen Appliances', 1899, 2499, 4.0, 750, 44, [17210074, 20557063], 'Retro two-slice toaster with six browning levels and a crumb tray.', { Slots: '2 wide', Power: '900 W', Finish: 'Matte' }),
+  item('velvet-accent-armchair', 'Velvet Accent Armchair', 'Hearth & Oak', 'home-kitchen', 'Furniture', 14999, 21999, 4.5, 290, 9, [12269764, 12269762], 'Deep-seated accent chair in plush velvet with solid wood legs.', { Upholstery: 'Velvet', Frame: 'Solid wood', Dimensions: '78 x 80 x 84 cm' }, 'F'),
+  item('leather-lounge-armchair', 'Leather Lounge Armchair', 'Hearth & Oak', 'home-kitchen', 'Furniture', 26999, 34999, 4.6, 170, 6, [11112727, 12269762], 'Full-grain leather lounge chair with a sculpted back and brass-tone feet.', { Upholstery: 'Leather', Frame: 'Hardwood', Dimensions: '82 x 85 x 90 cm' }, 'B'),
+  item('oak-dining-chair-set', 'Oak Dining Chair Set (2)', 'Hearth & Oak', 'home-kitchen', 'Furniture', 5999, 7999, 4.1, 480, 30, [35589991, 35203822], 'Pair of natural oak dining chairs with a curved backrest.', { Material: 'Oak', Set: 'Pack of 2', Weight: '5.2 kg each' }),
+  item('sage-lounge-armchair', 'Sage Lounge Armchair', 'Hearth & Oak', 'home-kitchen', 'Furniture', 11999, 15999, 4.3, 240, 16, [35632442, 35203822], 'Soft-sage upholstered armchair that suits reading corners and living rooms.', { Upholstery: 'Linen blend', Frame: 'Beech', Dimensions: '74 x 78 x 82 cm' }),
+  item('retinol-night-serum', 'Retinol Night Serum', 'Lumiere Skin', 'beauty', 'Skincare', 1499, 1999, 4.5, 3120, 88, [39452544, 39281910], 'Gentle night serum with stabilised retinol to smooth the look of fine lines.', { Volume: '30 ml', Use: 'Night', Skin: 'All types' }, 'FB'),
+  item('niacinamide-serum-trio', 'Niacinamide Serum Trio', 'Lumiere Skin', 'beauty', 'Skincare', 2299, 3299, 4.4, 2240, 70, [39281912, 38822007], 'Three-step serum set focused on clarity, hydration and an even-looking tone.', { Volume: '3 x 15 ml', Use: 'Morning and night', Skin: 'Oily and combination' }, 'B'),
+  item('hydration-mist-set', 'Hydration Mist Set', 'Dewdrop', 'beauty', 'Skincare', 999, 1499, 4.1, 860, 110, [24602077, 39400892], 'Travel-size facial mists that refresh and lock in moisture throughout the day.', { Volume: '3 x 50 ml', Use: 'Daytime', Skin: 'Dry' }),
+  item('bakuchiol-glow-serum', 'Bakuchiol Glow Serum', 'Lumiere Skin', 'beauty', 'Skincare', 1799, 2499, 4.3, 540, 52, [39400892, 39392892], 'Plant-based alternative to retinol with a lightweight, fast-absorbing texture.', { Volume: '30 ml', Use: 'Day and night', Skin: 'Sensitive' }),
+  item('rosehip-facial-oil', 'Rosehip Facial Oil', 'Dewdrop', 'beauty', 'Skincare', 849, 1199, 4.0, 310, 95, [38822007, 39281912], 'Cold-pressed rosehip oil that nourishes dry skin without heaviness.', { Volume: '30 ml', Use: 'Night', Skin: 'Dry' }),
+  item('intensive-hydration-deodorant', 'Intensive Hydration Deodorant', 'Freshcraft', 'beauty', 'Body Care', 399, 549, 3.9, 1210, 150, [7546589, 24602077], 'Long-lasting deodorant with a soft floral scent and 48-hour protection.', { Volume: '150 ml', Protection: '48 hours', Scent: 'Floral' }),
+  item('classics-boxed-set', 'The Classics Collection (Boxed Set)', 'Penhollow Press', 'books', 'Literature', 1899, 2499, 4.7, 1420, 40, [8207315, 29010900], 'Five timeless novels in a collector-friendly boxed set with ribbon bookmarks.', { Format: 'Paperback', Pages: '2,140', Volumes: '5' }, 'FB'),
+  item('learning-to-code', 'Learning to Code, Second Edition', 'Northgate Books', 'books', 'Technology', 1299, 1799, 4.6, 2650, 65, [34889792, 207732], 'Hands-on introduction to programming with projects in every chapter.', { Format: 'Paperback', Pages: '412', Level: 'Beginner' }, 'B'),
+  item('design-thinking-handbook', 'Design Thinking Handbook', 'Northgate Books', 'books', 'Technology', 999, 1299, 4.4, 910, 52, [29010900, 11829140], 'Practical guide to research, prototyping and testing user-centred products.', { Format: 'Paperback', Pages: '268', Level: 'Intermediate' }),
+  item('vintage-hardcover-anthology', 'Vintage Hardcover Anthology', 'Penhollow Press', 'books', 'Literature', 2199, 2999, 4.5, 310, 18, [2002217, 9649655], 'Hardcover anthology of short stories with gilt-edged pages.', { Format: 'Hardcover', Pages: '620', Edition: 'Collector' }),
+  item('art-color-study-bundle', 'Art and Color Study Bundle', 'Brightleaf', 'books', 'Art', 1599, 1999, 4.3, 480, 33, [9649655, 8447654], 'Bundle of sketchbooks and colour theory workbooks for creative practice.', { Format: 'Paperback', Pages: '340', Includes: '2 books' }),
+  item('beach-play-set', 'Beach Play Set', 'Sunnyday', 'toys', 'Outdoor Toys', 1199, 1699, 4.2, 740, 60, [8435759, 887821], 'Colourful sand and water play set with buckets, moulds and a sturdy carry bag.', { Ages: '3+', Pieces: '14', Material: 'BPA-free plastic' }, 'F'),
+  item('classic-strategy-board-game', 'Classic Strategy Board Game', 'Othello and Co', 'toys', 'Board Games', 1499, 1999, 4.6, 1020, 35, [792051, 31405835], 'Family strategy game for 2 to 4 players with quick setup and replay value.', { Ages: '8+', Players: '2-4', Duration: '45 min' }, 'B'),
+  item('property-trading-game', 'Property Trading Board Game', 'Othello and Co', 'toys', 'Board Games', 1799, 2499, 4.3, 430, 28, [31405835, 792051], 'Trade properties, build and outsmart friends in this classic board game.', { Ages: '8+', Players: '2-6', Duration: '90 min' }),
+  item('creative-building-blocks', 'Creative Building Block Set', 'Brightstep', 'toys', 'Building Toys', 1699, 2499, 4.5, 690, 48, [12442773, 9951401], 'Interlocking bricks in bright colours for imaginative building and STEM play.', { Ages: '4+', Pieces: '250', Material: 'ABS plastic' }, 'F'),
+  item('plush-toy-storage-shelf', 'Plush Toy Storage Shelf', 'Brightstep', 'toys', 'Room Organizers', 2499, 3299, 4.1, 210, 22, [32713291, 20387931], 'Wall-friendly shelf with fabric bins to keep plush toys and books tidy.', { Material: 'Cotton and wood', Bins: '4', Load: '12 kg' }),
+  item('adjustable-dumbbell-pair', 'Adjustable Dumbbell Pair', 'IronPeak', 'sports', 'Strength', 5999, 7999, 4.6, 2480, 40, [11433027, 9073247], 'Quick-change dumbbells that replace a full rack with 5 kg steps up to 24 kg.', { Weight: '5-24 kg each', Adjustment: 'Dial', Grip: 'Knurled' }, 'FB'),
+  item('medicine-ball-set', 'Medicine Ball Set', 'IronPeak', 'sports', 'Strength', 1899, 2499, 4.2, 610, 55, [32610335, 16552841], 'Set of weighted medicine balls for core work, throws and conditioning.', { Weights: '2, 4, 6 kg', Surface: 'Grippy rubber', Set: '3 balls' }),
+  item('cast-iron-kettlebell', 'Cast Iron Kettlebell', 'IronPeak', 'sports', 'Strength', 1699, 2199, 4.4, 720, 46, [16552841, 10518845], 'Solid cast iron kettlebell with a smooth handle and powder-coated base.', { Weight: '12 kg', Material: 'Cast iron', Finish: 'Powder coat' }),
+  item('resistance-band-kit', 'Resistance Band Kit', 'FlexFit', 'sports', 'Training', 1299, 1899, 4.3, 1950, 85, [28970127, 10518845], 'Five-band resistance kit with handles, door anchor and carry pouch.', { Bands: '5 levels', Includes: 'Handles, anchor', Material: 'Natural latex' }),
+  item('shaker-bottle-pro', 'Shaker Bottle Pro 700ml', 'FlexFit', 'sports', 'Accessories', 499, 799, 4.0, 3110, 140, [16412053, 28970127], 'Leak-proof shaker with a mixing ball and measurement markings.', { Volume: '700 ml', Material: 'BPA-free plastic', Feature: 'Leak-proof' }),
+  item('foldable-power-bench', 'Foldable Power Bench', 'IronPeak', 'sports', 'Equipment', 12999, 16999, 4.5, 180, 8, [14762165, 9073247], 'Adjustable utility bench that folds flat for home gym setups.', { Max: '250 kg', Positions: '7', Frame: 'Steel' }, 'F'),
+];
+
+const BASE_DATE = Date.UTC(2026, 9, 31);
+
+export const PRODUCTS: Product[] = SEEDS.map(({ imageIds, ...seed }, index) => ({
+  ...seed,
+  images: imageIds.map(photo),
+  createdAt: new Date(BASE_DATE - index * 2 * 86400000).toISOString(),
+  deliveryDays: (index % 4) + 1,
+}));
+
+export function findProductById(id: string): Product | undefined {
+  return PRODUCTS.find((product) => product.id === id);
+}
