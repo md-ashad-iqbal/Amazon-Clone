@@ -30,6 +30,7 @@ export interface Product {
   bestSeller: boolean;
   createdAt: string;
   deliveryDays: number;
+  tags?: string[];
 }
 
 export interface ProductFilters {

@@ -3,6 +3,7 @@ import { isDbConnected } from '../config/db';
 import { ProductModel } from '../models/Product';
 import { inMemoryStore } from '../store/inMemoryStore';
 import { INITIAL_PRODUCTS, ProductData } from '../data/initialProducts';
+import { searchAndRankProducts } from '../utils/searchEngine';
 
 const CATEGORIES = [
   { key: 'electronics', label: 'Electronics' },
@@ -46,13 +47,10 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
 
     let filtered = [...allProducts];
 
-    // Search query
-    if (q && typeof q === 'string') {
-      const terms = q.toLowerCase().split(/\s+/).filter(Boolean);
-      filtered = filtered.filter((p) => {
-        const text = `${p.name} ${p.brand} ${p.subcategory} ${p.category} ${p.description}`.toLowerCase();
-        return terms.every((t) => text.includes(t));
-      });
+    // Search query with smart tokenization, stemming and synonyms
+    const hasSearchQuery = Boolean(q && typeof q === 'string' && q.trim());
+    if (hasSearchQuery) {
+      filtered = searchAndRankProducts(filtered, (q as string).trim());
     }
 
     // Category
@@ -102,27 +100,29 @@ export async function getProducts(req: Request, res: Response): Promise<void> {
       });
     }
 
-    // Sorting
-    switch (sort) {
-      case 'price-asc':
-        filtered.sort((a, b) => a.price - b.price);
-        break;
-      case 'price-desc':
-        filtered.sort((a, b) => b.price - a.price);
-        break;
-      case 'rating':
-        filtered.sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
-        break;
-      case 'newest':
-        filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-        break;
-      case 'bestseller':
-        filtered.sort((a, b) => Number(b.bestSeller) - Number(a.bestSeller) || b.reviewCount - a.reviewCount);
-        break;
-      case 'featured':
-      default:
-        filtered.sort((a, b) => Number(b.featured) - Number(a.featured) || b.reviewCount - a.reviewCount);
-        break;
+    // Sorting (if search query is active and sort is 'featured', maintain search relevance ranking)
+    if (!hasSearchQuery || sort !== 'featured') {
+      switch (sort) {
+        case 'price-asc':
+          filtered.sort((a, b) => a.price - b.price);
+          break;
+        case 'price-desc':
+          filtered.sort((a, b) => b.price - a.price);
+          break;
+        case 'rating':
+          filtered.sort((a, b) => b.rating - a.rating || b.reviewCount - a.reviewCount);
+          break;
+        case 'newest':
+          filtered.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+          break;
+        case 'bestseller':
+          filtered.sort((a, b) => Number(b.bestSeller) - Number(a.bestSeller) || b.reviewCount - a.reviewCount);
+          break;
+        case 'featured':
+        default:
+          filtered.sort((a, b) => Number(b.featured) - Number(a.featured) || b.reviewCount - a.reviewCount);
+          break;
+      }
     }
 
     const total = filtered.length;
@@ -187,16 +187,14 @@ export async function getBrands(req: Request, res: Response): Promise<void> {
 
 export async function getSuggestions(req: Request, res: Response): Promise<void> {
   try {
-    const q = (req.query.q as string || '').trim().toLowerCase();
+    const q = ((req.query.q as string) || '').trim();
     if (!q) {
       res.json({ success: true, suggestions: [] });
       return;
     }
 
     const all = inMemoryStore.getAllProducts();
-    const matches = all
-      .filter((p) => p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q) || p.category.toLowerCase().includes(q))
-      .slice(0, 6);
+    const matches = searchAndRankProducts(all, q).slice(0, 6);
 
     res.json({ success: true, suggestions: matches });
   } catch (error) {

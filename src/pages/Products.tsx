@@ -165,10 +165,44 @@ export default function Products() {
 
         {data && data.items.length === 0 && (
           <div className="rounded-2xl bg-white p-10 text-center shadow-card ring-1 ring-slate-200/70">
-            <h2 className="text-lg font-bold text-slate-900">No products match these filters</h2>
+            <div className="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400">
+              <Search className="h-8 w-8" />
+            </div>
+            <h2 className="mt-4 text-xl font-bold text-slate-900">
+              {query.query ? 'No products found for your search.' : 'No products match these filters'}
+            </h2>
             <p className="mx-auto mt-2 max-w-md text-sm text-slate-600">
-              Try a different search term, widen the price range, or clear your filters to see everything.
+              {query.query
+                ? `We couldn't find any items matching "${query.query}". Check your spelling or try popular categories below.`
+                : 'Try widening your price range, relaxing ratings, or clearing active filters to see everything.'}
             </p>
+
+            <div className="mt-6 flex flex-wrap justify-center gap-2">
+              <span className="w-full text-xs font-semibold uppercase tracking-wider text-slate-400">
+                Popular categories:
+              </span>
+              {[
+                { label: 'Fashion', q: 'fashion' },
+                { label: 'Electronics', q: 'electronics' },
+                { label: 'Smartphones', q: 'mobile' },
+                { label: 'Shirts & T-Shirts', q: 'shirt' },
+                { label: 'Jeans & Pants', q: 'pants' },
+                { label: 'Ethnic Wear', q: 'kurta' },
+                { label: 'Shoes', q: 'shoes' },
+                { label: 'Laptops', q: 'laptop' },
+                { label: 'Headphones', q: 'headphones' },
+              ].map((item) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  onClick={() => patch({ q: item.q, category: null, min: null, max: null })}
+                  className="rounded-full border border-slate-200 bg-slate-50 px-3.5 py-1.5 text-xs font-medium text-slate-700 transition hover:border-amber-400 hover:bg-amber-50 hover:text-amber-900"
+                >
+                  {item.label}
+                </button>
+              ))}
+            </div>
+
             <button type="button" onClick={clearAll} className="btn-primary mt-6">
               Clear all filters
             </button>

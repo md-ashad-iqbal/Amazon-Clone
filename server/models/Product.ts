@@ -17,6 +17,7 @@ export interface IProduct extends Document {
   featured: boolean;
   bestSeller: boolean;
   deliveryDays: number;
+  tags?: string[];
   createdAt: Date;
   updatedAt: Date;
 }
@@ -39,6 +40,7 @@ const ProductSchema = new Schema<IProduct>(
     featured: { type: Boolean, default: false },
     bestSeller: { type: Boolean, default: false },
     deliveryDays: { type: Number, default: 3 },
+    tags: [{ type: String }],
   },
   { timestamps: true }
 );

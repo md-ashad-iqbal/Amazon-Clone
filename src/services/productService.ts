@@ -1,7 +1,7 @@
-import { CATEGORY_LABELS } from '@/data/categories';
 import { PRODUCTS, findProductById } from '@/data/products';
 import type { Product, ProductListQuery, ProductListResult, SortKey } from '@/types';
 import { getDiscountPercent } from '@/utils/format';
+import { searchAndRankProducts } from '@/utils/searchEngine';
 
 const DEAL_THRESHOLD = 25;
 const DEFAULT_PAGE_SIZE = 12;
@@ -11,26 +11,13 @@ function respond<T>(value: T): Promise<T> {
   return new Promise((resolve) => setTimeout(() => resolve(value), SIMULATED_LATENCY_MS));
 }
 
-function matchesQuery(product: Product, query: string): boolean {
-  const haystack = [
-    product.name,
-    product.brand,
-    product.subcategory,
-    CATEGORY_LABELS[product.category],
-  ]
-    .join(' ')
-    .toLowerCase();
-  return query
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-    .every((term) => haystack.includes(term));
-}
-
 function applyFilters(products: Product[], query: ProductListQuery): Product[] {
+  let list = products;
   const term = query.query?.trim() ?? '';
-  return products.filter((product) => {
-    if (term && !matchesQuery(product, term)) return false;
+  if (term) {
+    list = searchAndRankProducts(list, term);
+  }
+  return list.filter((product) => {
     if (query.category && product.category !== query.category) return false;
     if (query.minPrice !== undefined && product.price < query.minPrice) return false;
     if (query.maxPrice !== undefined && product.price > query.maxPrice) return false;
@@ -54,7 +41,14 @@ const SORTERS: Record<SortKey, (a: Product, b: Product) => number> = {
 
 export function listProducts(query: ProductListQuery = {}): Promise<ProductListResult> {
   const pageSize = query.pageSize ?? DEFAULT_PAGE_SIZE;
-  const filtered = applyFilters(PRODUCTS, query).sort(SORTERS[query.sort ?? 'featured']);
+  const hasSearch = Boolean(query.query?.trim());
+  let filtered = applyFilters(PRODUCTS, query);
+
+  // If user searched and sort is default ('featured' or undefined), preserve relevance ranking
+  if (!hasSearch || (query.sort && query.sort !== 'featured')) {
+    filtered = [...filtered].sort(SORTERS[query.sort ?? 'featured']);
+  }
+
   const pageCount = Math.max(1, Math.ceil(filtered.length / pageSize));
   const page = Math.min(Math.max(1, query.page ?? 1), pageCount);
   const start = (page - 1) * pageSize;
@@ -73,7 +67,7 @@ export function getProductById(id: string): Promise<Product | null> {
 export function getSearchSuggestions(query: string, limit = 6): Promise<Product[]> {
   const term = query.trim();
   if (!term) return respond([]);
-  const matches = applyFilters(PRODUCTS, { query: term }).slice(0, limit);
+  const matches = searchAndRankProducts(PRODUCTS, term).slice(0, limit);
   return respond(matches);
 }
 
