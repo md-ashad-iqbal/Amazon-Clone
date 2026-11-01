@@ -1,26 +1,39 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ChevronDown, Heart, LogOut, MapPin, Package, ShoppingBag, ShoppingCart, User, UserCheck } from 'lucide-react';
+import { ChevronDown, Heart, LogOut, MapPin, Package, ShoppingBag, ShoppingCart, User, Check } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { useWishlist } from '@/context/WishlistContext';
 import DeliverTo from '@/components/layout/DeliverTo';
 import SearchBar from '@/components/layout/SearchBar';
 import CategoryNav from '@/components/layout/CategoryNav';
+import toast from 'react-hot-toast';
+
+const LANGUAGES = [
+  { code: 'EN', label: 'English - EN' },
+  { code: 'HI', label: 'हिन्दी - HI' },
+  { code: 'BN', label: 'বাংলা - BN' },
+];
 
 export default function Header() {
   const { user, isAuthenticated, logout } = useAuth();
   const { itemCount } = useCart();
   const { productIds } = useWishlist();
   const [accountMenuOpen, setAccountMenuOpen] = useState(false);
+  const [langMenuOpen, setLangMenuOpen] = useState(false);
+  const [currentLang, setCurrentLang] = useState(() => localStorage.getItem('amazon_clone_lang') || 'EN');
   const dropdownRef = useRef<HTMLDivElement>(null);
+  const langDropdownRef = useRef<HTMLDivElement>(null);
   const navigate = useNavigate();
 
-  // Close dropdown when clicking outside
+  // Close dropdowns when clicking outside
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setAccountMenuOpen(false);
+      }
+      if (langDropdownRef.current && !langDropdownRef.current.contains(event.target as Node)) {
+        setLangMenuOpen(false);
       }
     }
     document.addEventListener('mousedown', handleClickOutside);
@@ -31,6 +44,13 @@ export default function Header() {
     setAccountMenuOpen(false);
     logout();
     navigate('/');
+  };
+
+  const handleSelectLang = (code: string) => {
+    setCurrentLang(code);
+    localStorage.setItem('amazon_clone_lang', code);
+    setLangMenuOpen(false);
+    toast.success(`Language set to ${code}`);
   };
 
   const firstName = user?.name ? user.name.split(' ')[0] : 'Sign in';
@@ -50,7 +70,7 @@ export default function Header() {
             </span>
             <div className="flex flex-col leading-none">
               <span className="text-xl font-black tracking-tight text-white">
-                Shop<span className="text-amber-400">Sphere</span>
+                amazon<span className="text-amber-400">clone</span>
               </span>
               <span className="text-[10px] font-semibold text-slate-400 tracking-wider">.in</span>
             </div>
@@ -67,9 +87,42 @@ export default function Header() {
           {/* Right Navigation Controls */}
           <div className="ml-auto flex items-center gap-1 sm:gap-2">
             {/* Country / Language Indicator */}
-            <div className="hidden cursor-pointer items-center gap-1 rounded-sm p-1.5 text-xs font-bold transition hover:ring-1 hover:ring-white lg:flex">
-              <span className="text-base" role="img" aria-label="India flag">🇮🇳</span>
-              <span>EN</span>
+            <div className="relative hidden lg:block" ref={langDropdownRef}>
+              <button
+                type="button"
+                onClick={() => setLangMenuOpen((prev) => !prev)}
+                className="flex items-center gap-1 rounded-sm p-1.5 text-xs font-bold transition hover:ring-1 hover:ring-white"
+                aria-expanded={langMenuOpen}
+                aria-label="Select language"
+              >
+                <span className="text-base" role="img" aria-label="India flag">🇮🇳</span>
+                <span>{currentLang}</span>
+                <ChevronDown className="h-3 w-3 text-slate-400" />
+              </button>
+
+              {langMenuOpen && (
+                <div className="absolute right-0 top-full z-50 mt-1 w-44 rounded-md bg-white p-2 text-slate-900 shadow-2xl ring-1 ring-slate-900/10">
+                  <p className="px-2 py-1 text-[11px] font-bold uppercase tracking-wider text-slate-400">
+                    Language settings
+                  </p>
+                  <ul className="space-y-1">
+                    {LANGUAGES.map((lang) => (
+                      <li key={lang.code}>
+                        <button
+                          type="button"
+                          onClick={() => handleSelectLang(lang.code)}
+                          className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-xs font-medium transition hover:bg-amber-50 ${
+                            currentLang === lang.code ? 'font-bold text-amber-700 bg-amber-50/60' : 'text-slate-700'
+                          }`}
+                        >
+                          <span>{lang.label}</span>
+                          {currentLang === lang.code && <Check className="h-3.5 w-3.5 text-amber-600" />}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
             </div>
 
             {/* Account & Lists Dropdown Trigger */}

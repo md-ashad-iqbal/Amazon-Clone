@@ -4,7 +4,8 @@ import { findProductById } from '@/data/products';
 import type { CartLine, CartSummary } from '@/types';
 import { readStorage, writeStorage } from '@/utils/storage';
 
-const STORAGE_KEY = 'shopsphere-cart';
+const STORAGE_KEY = 'amazon_clone_cart';
+const LEGACY_STORAGE_KEY = 'shopsphere-cart';
 const FREE_DELIVERY_THRESHOLD = 499;
 const STANDARD_DELIVERY_CHARGE = 49;
 
@@ -26,7 +27,10 @@ interface CartContextValue extends CartSummary {
 const CartContext = createContext<CartContextValue | null>(null);
 
 function loadCart(): StoredCartItem[] {
-  const stored = readStorage<StoredCartItem[]>(STORAGE_KEY, []);
+  let stored = readStorage<StoredCartItem[]>(STORAGE_KEY, []);
+  if (!stored || stored.length === 0) {
+    stored = readStorage<StoredCartItem[]>(LEGACY_STORAGE_KEY, []);
+  }
   return stored.filter(
     (entry) =>
       typeof entry.productId === 'string' &&
@@ -124,10 +128,12 @@ export function CartProvider({ children }: { children: ReactNode }) {
   return createElement(CartContext.Provider, { value }, children);
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCart(): CartContextValue {
   const context = useContext(CartContext);
   if (!context) throw new Error('useCart must be used inside CartProvider');
   return context;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const FREE_DELIVERY_MINIMUM = FREE_DELIVERY_THRESHOLD;

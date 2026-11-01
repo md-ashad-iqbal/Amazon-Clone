@@ -22,21 +22,31 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Health check endpoint
-app.get('/api/health', (_req: Request, res: Response) => {
+const handleHealth = (_req: Request, res: Response) => {
   res.json({
     status: 'healthy',
-    application: 'ShopSphere E-Commerce API',
+    application: 'Amazon Clone E-Commerce API',
     database: isDbConnected() ? 'MongoDB Atlas (Connected)' : 'In-Memory Resilient Mock Store (Active)',
     timestamp: new Date().toISOString(),
     uptimeSeconds: Math.floor(process.uptime()),
   });
-});
+};
 
-// Mount modular API routes
+app.get('/api/health', handleHealth);
+app.get('/health', handleHealth);
+
+// Mount modular API routes (both /api/* and root paths for Vercel serverless compatibility)
 app.use('/api/auth', authRoutes);
+app.use('/auth', authRoutes);
+
 app.use('/api/products', productRoutes);
+app.use('/products', productRoutes);
+
 app.use('/api/orders', orderRoutes);
+app.use('/orders', orderRoutes);
+
 app.use('/api/users', userRoutes);
+app.use('/users', userRoutes);
 
 // Centralized error handling
 app.use(errorHandler);

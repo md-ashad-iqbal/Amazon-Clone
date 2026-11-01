@@ -1,20 +1,24 @@
-# ShopSphere — Amazon-Inspired E-Commerce Marketplace
+# Amazon Clone — Full-Stack Educational E-Commerce Platform
 
-ShopSphere is a full-stack educational e-commerce marketplace closely inspired by Amazon's user experience, design systems, and architecture. It features a complete REST API backend (Node.js/Express/MongoDB), a responsive React 18 frontend with Vite and Tailwind CSS, JWT authentication, simulated demonstration checkout (Cash on Delivery & Instant Test Pay), and native Vercel deployment readiness.
+[![Live Demo](https://img.shields.io/badge/Demo-Live%20Website-orange)](https://amazon-clone-wheat-six-88.vercel.app/)
+[![GitHub](https://img.shields.io/badge/GitHub-Repository-blue)](https://github.com/md-ashad-iqbal/Amazon-Clone)
+[![Tech Stack](https://img.shields.io/badge/Stack-React%2018%20%7C%20Express%20%7C%20MongoDB-emerald)]()
+
+An educational full-stack e-commerce marketplace closely inspired by Amazon's design systems, architecture, and user workflows. It features a complete REST API backend (Node.js / Express / MongoDB with automatic in-memory fallback), a responsive React 18 frontend with Vite and Tailwind CSS, secure JWT authentication, address management, simulated demonstration checkout (Cash on Delivery & Instant Test Pay), and verified Vercel serverless deployment.
 
 ---
 
 ## 🌟 Key Features
 
 ### 🛍️ Amazon-Inspired Shopping Experience
-- **Header:** Sticky marketplace top bar with logo, Delivery Location picker, category-filtered Search Bar with live suggestions, Country/Language selector (`🇮🇳 EN`), "Account & Lists" dropdown menu, "Returns & Orders", and shopping cart with live item badge.
-- **Navigation:** Sub-navigation bar with sliding drawer ("All" menu) categorizing departments, trending releases, and help topics.
+- **Header:** Sticky marketplace top bar with amazonclone.in branding, Delivery Location selector, category-filtered Search Bar with live auto-suggestions, Country/Language selector (`🇮🇳 EN`), "Account & Lists" dropdown menu, "Returns & Orders", and shopping cart with live item count badge.
+- **Navigation:** Sub-navigation bar with sliding drawer ("All" menu) categorizing departments, trending releases, and customer service.
 - **Homepage:**
   - Promotional Hero Carousel with smooth autoplay and pause controls.
   - Distinctive **Amazon 2x2 Multi-Quadrant Category Grid** ("Level up your beauty routine", "Plug in with our electronics", "Fantastic finds for home", "Look your best this season", "Top PCs & Accessories", etc.).
-  - "Today's Deals" and "Best Sellers" horizontal scroll carousels.
-  - Personalized recommendations prompt.
-  - "Recently Viewed Products" history tracker.
+  - "Today's Deals" and "Best Sellers" horizontal product carousels.
+  - Personalized sign-in recommendation cards.
+  - "Recently Viewed Products" history tracker with browser persistence.
 - **Footer:** Deep slate-navy 4-tier Amazon-style directory (Get to Know Us, Make Money with Us, Payment Products, Let Us Help You), smooth "Back to top", currency/region selector, and subsidiary services grid.
 
 ### 📦 Comprehensive Product Catalog & Filtering
@@ -31,7 +35,7 @@ ShopSphere is a full-stack educational e-commerce marketplace closely inspired b
 - **Ownership Enforcement:** Users are strictly isolated to their own orders, cart, and address book.
 
 ### 💳 Simulated Demonstration Checkout (No Real Gateways)
-- **Zero Real Financial Transactions:** Strictly designed for educational use. No Stripe, Razorpay, or PayPal credentials required.
+- **Zero Real Financial Transactions:** Strictly designed for educational use. No real credit cards or payment gateways are processed.
 - **Supported Options:**
   - Cash on Delivery (Simulated)
   - Instant Test Card Checkout (Simulated)
@@ -59,6 +63,8 @@ ShopSphere is a full-stack educational e-commerce marketplace closely inspired b
 ### 1. Installation
 Clone the repository and install all dependencies:
 ```bash
+git clone https://github.com/md-ashad-iqbal/Amazon-Clone.git
+cd Amazon-Clone
 npm install
 ```
 
@@ -67,9 +73,9 @@ Create a `.env` file in the root folder (or copy from `.env.example`):
 ```env
 PORT=5000
 MONGODB_URI=
-JWT_SECRET=shopsphere-super-secure-production-jwt-secret-replace-me-32chars
+JWT_SECRET=amazon-clone-super-secure-production-jwt-secret-replace-me-32chars
 ```
-> **Note:** If `MONGODB_URI` is omitted, ShopSphere automatically initializes its built-in in-memory mock store pre-seeded with demo products, users, and orders!
+> **Note:** If `MONGODB_URI` is omitted, Amazon Clone automatically initializes its built-in in-memory mock store pre-seeded with demo products, users, and orders!
 
 ### 3. Running Locally
 
@@ -90,33 +96,33 @@ npm run dev
 ## 🔑 Demo Account Credentials
 
 For instant evaluation, you can use the built-in demo customer account:
-- **Email:** `demo@shopsphere.com`
+- **Email:** `demo@amazonclone.com` (or `demo@shopsphere.com`)
 - **Password:** `demo12345`
 
 *(A one-click "Fill Demo" button is also provided directly on the Login screen!)*
 
 ---
 
-## ☁️ Vercel Deployment Guide
+## ☁️ Vercel Deployment
 
-ShopSphere is pre-configured for seamless single-project deployment on Vercel:
+Amazon Clone is pre-configured for seamless single-project deployment on Vercel:
 
-1. **Push your code to GitHub / GitLab:**
+1. **Push your code to GitHub:**
    ```bash
    git add .
-   git commit -m "feat: complete full-stack ShopSphere marketplace"
+   git commit -m "feat: refine and fully test Amazon Clone"
    git push origin main
    ```
 2. **Import into Vercel:**
    - Log into your [Vercel Dashboard](https://vercel.com).
-   - Click **"Add New Project"** and select your repository.
+   - Click **"Add New Project"** and select your `Amazon-Clone` repository.
    - Framework Preset: **Vite**.
    - Root Directory: `./`.
    - Build Command: `npm run build`.
    - Output Directory: `dist`.
 3. **Configure Environment Variables in Vercel:**
    - `JWT_SECRET`: A secure random 32+ character string.
-   - `MONGODB_URI`: (Optional) Your MongoDB Atlas connection string (e.g., `mongodb+srv://user:pass@cluster0.mongodb.net/shopsphere?retryWrites=true&w=majority`).
+   - `MONGODB_URI`: (Optional) Your MongoDB Atlas connection string (e.g., `mongodb+srv://user:pass@cluster0.mongodb.net/amazon-clone?retryWrites=true&w=majority`).
 4. **Deploy:** Click **Deploy**. Vercel will automatically serve the Vite frontend from `dist` and route `/api/*` to the serverless Express function at `api/index.ts`.
 
 ---
@@ -146,4 +152,4 @@ ShopSphere is pre-configured for seamless single-project deployment on Vercel:
 
 ## 📜 Educational Disclaimer
 
-ShopSphere is an educational prototype developed for demonstrative and portfolio purposes. Product photographs are sourced royalty-free from Pexels under their creative license. All simulated transactions, prices, brand names, and shipping commitments are fictional.
+Amazon Clone is an educational prototype developed strictly for demonstrative and portfolio learning purposes. It is not an official Amazon product and is not affiliated with or endorsed by Amazon Technologies, Inc. Product photographs are sourced royalty-free from Pexels under their creative commons license. All simulated transactions, prices, brand names, and shipping commitments are fictional.

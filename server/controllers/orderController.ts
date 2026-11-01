@@ -192,11 +192,11 @@ export async function getOrderById(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    let order: any = null;
+    let order: (StoreOrder & { _id?: unknown }) | null = null;
     if (isDbConnected()) {
-      order = await OrderModel.findOne({ orderId }).lean();
+      order = (await OrderModel.findOne({ orderId }).lean()) as (StoreOrder & { _id?: unknown }) | null;
     } else {
-      order = inMemoryStore.getOrderByOrderId(orderId);
+      order = inMemoryStore.getOrderByOrderId(orderId) || null;
     }
 
     if (!order) {
@@ -226,11 +226,11 @@ export async function cancelOrder(req: Request, res: Response): Promise<void> {
       return;
     }
 
-    let order: any = null;
+    let order: (StoreOrder & { _id?: unknown; save?: () => Promise<unknown> }) | null = null;
     if (isDbConnected()) {
-      order = await OrderModel.findOne({ orderId });
+      order = (await OrderModel.findOne({ orderId })) as (StoreOrder & { _id?: unknown; save?: () => Promise<unknown> }) | null;
     } else {
-      order = inMemoryStore.getOrderByOrderId(orderId);
+      order = (inMemoryStore.getOrderByOrderId(orderId) as (StoreOrder & { _id?: unknown; save?: () => Promise<unknown> })) || null;
     }
 
     if (!order) {

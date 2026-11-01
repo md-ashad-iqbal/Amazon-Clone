@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { AlertCircle, Ban, CheckCircle2, ChevronRight, Clock, Package, RotateCcw, ShoppingBag, Truck } from 'lucide-react';
+import { Ban, CheckCircle2, ChevronRight, Package, ShoppingBag, Truck } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { apiClient } from '@/services/api';
@@ -51,8 +51,9 @@ export default function Orders() {
       } else {
         toast.error(res.data.message || 'Could not cancel order.');
       }
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Failed to cancel order.');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr.response?.data?.message || 'Failed to cancel order.');
     } finally {
       setCancellingId(null);
     }

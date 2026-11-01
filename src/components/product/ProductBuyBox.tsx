@@ -96,7 +96,7 @@ export default function ProductBuyBox({ product }: ProductBuyBoxProps) {
       <div className="flex items-start gap-2 border-t border-slate-200 pt-4 text-xs text-slate-600">
         <ShieldCheck className="mt-0.5 h-4 w-4 flex-none text-emerald-700" />
         <div>
-          <p>Ships from and sold by ShopSphere Demo Warehouse.</p>
+          <p>Ships from and sold by Amazon Clone Demo Warehouse.</p>
           <div className="mt-1">
             <Rating value={product.rating} />
           </div>

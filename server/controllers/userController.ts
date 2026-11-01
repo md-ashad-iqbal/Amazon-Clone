@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { isDbConnected } from '../config/db';
-import { UserModel } from '../models/User';
+import { UserModel, IAddress } from '../models/User';
 import { inMemoryStore } from '../store/inMemoryStore';
 
 export async function getAddresses(req: Request, res: Response): Promise<void> {
@@ -46,7 +46,7 @@ export async function addAddress(req: Request, res: Response): Promise<void> {
       }
 
       if (isDefault) {
-        user.addresses.forEach((a: any) => {
+        user.addresses.forEach((a: IAddress) => {
           a.isDefault = false;
         });
       } else if (user.addresses.length === 0) {
@@ -123,7 +123,7 @@ export async function updateAddress(req: Request, res: Response): Promise<void> 
       }
 
       if (req.body.isDefault) {
-        user.addresses.forEach((a: any) => {
+        user.addresses.forEach((a: IAddress) => {
           a.isDefault = false;
         });
       }
@@ -164,7 +164,7 @@ export async function deleteAddress(req: Request, res: Response): Promise<void> 
       }
 
       user.addresses.pull({ _id: addressId });
-      if (user.addresses.length > 0 && !user.addresses.some((a: any) => a.isDefault)) {
+      if (user.addresses.length > 0 && !user.addresses.some((a: IAddress) => a.isDefault)) {
         user.addresses[0].isDefault = true;
       }
       await user.save();

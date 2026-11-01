@@ -28,7 +28,7 @@ export default function Login() {
   };
 
   const fillDemoCredentials = () => {
-    setEmail('demo@shopsphere.com');
+    setEmail('demo@amazonclone.com');
     setPassword('demo12345');
   };
 
@@ -41,7 +41,7 @@ export default function Login() {
             <ShoppingBag className="h-6 w-6" strokeWidth={2.5} />
           </span>
           <span className="text-2xl font-black tracking-tight text-slate-900">
-            Shop<span className="text-amber-500">Sphere</span>
+            amazon<span className="text-amber-500">clone</span>
           </span>
         </Link>
       </div>
@@ -49,14 +49,14 @@ export default function Login() {
       {/* Main Login Card */}
       <div className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
         <h1 className="text-2xl font-bold text-slate-900">Sign in</h1>
-        <p className="mt-1 text-sm text-slate-600">to continue to your ShopSphere account</p>
+        <p className="mt-1 text-sm text-slate-600">to continue to your Amazon Clone account</p>
 
         {/* 1-Click Demo Login Helper */}
         <div className="mt-4 rounded-xl bg-amber-50 p-3.5 ring-1 ring-amber-200">
           <div className="flex items-center justify-between">
             <div>
               <p className="text-xs font-bold text-amber-900">Demo Testing Account</p>
-              <p className="text-xs text-amber-700">demo@shopsphere.com / demo12345</p>
+              <p className="text-xs text-amber-700">demo@amazonclone.com / demo12345</p>
             </div>
             <button
               type="button"
@@ -92,9 +92,16 @@ export default function Login() {
               <label className="block text-xs font-bold text-slate-700" htmlFor="password">
                 Password
               </label>
-              <span className="text-xs text-sky-700 hover:underline cursor-pointer">
-                Forgot password?
-              </span>
+              <button
+                type="button"
+                onClick={() => {
+                  setEmail('demo@amazonclone.com');
+                  setPassword('demo12345');
+                }}
+                className="text-xs text-sky-700 hover:underline cursor-pointer"
+              >
+                Use demo password?
+              </button>
             </div>
             <div className="relative mt-1">
               <input
@@ -129,7 +136,7 @@ export default function Login() {
 
         <div className="mt-6 border-t border-slate-200 pt-6 text-center">
           <p className="text-xs text-slate-600">
-            By signing in, you agree to ShopSphere's simulated Conditions of Use and Privacy Notice.
+            By signing in, you agree to Amazon Clone's simulated Conditions of Use and Privacy Notice.
           </p>
         </div>
       </div>
@@ -141,7 +148,7 @@ export default function Login() {
             <div className="w-full border-t border-slate-300" />
           </div>
           <div className="relative flex justify-center text-xs">
-            <span className="bg-[#f8fafc] px-3 text-slate-500 font-medium">New to ShopSphere?</span>
+            <span className="bg-[#f8fafc] px-3 text-slate-500 font-medium">New to Amazon Clone?</span>
           </div>
         </div>
 
@@ -149,7 +156,7 @@ export default function Login() {
           to={`/register${redirect !== '/' ? `?redirect=${encodeURIComponent(redirect)}` : ''}`}
           className="block w-full rounded-lg border border-slate-300 bg-white py-2.5 text-sm font-bold text-slate-800 transition hover:bg-slate-50 shadow-xs"
         >
-          Create your ShopSphere account
+          Create your Amazon Clone account
         </Link>
       </div>
     </div>

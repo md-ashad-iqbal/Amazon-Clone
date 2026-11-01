@@ -2,7 +2,8 @@ import { createContext, createElement, useCallback, useContext, useEffect, useMe
 import type { ReactNode } from 'react';
 import { readStorage, writeStorage } from '@/utils/storage';
 
-const STORAGE_KEY = 'shopsphere-wishlist';
+const STORAGE_KEY = 'amazon_clone_wishlist';
+const LEGACY_STORAGE_KEY = 'shopsphere-wishlist';
 
 interface WishlistContextValue {
   productIds: string[];
@@ -14,9 +15,13 @@ interface WishlistContextValue {
 const WishlistContext = createContext<WishlistContextValue | null>(null);
 
 export function WishlistProvider({ children }: { children: ReactNode }) {
-  const [productIds, setProductIds] = useState<string[]>(() =>
-    readStorage<string[]>(STORAGE_KEY, []).filter((id) => typeof id === 'string'),
-  );
+  const [productIds, setProductIds] = useState<string[]>(() => {
+    const modern = readStorage<string[]>(STORAGE_KEY, []);
+    if (modern && modern.length) {
+      return modern.filter((id) => typeof id === 'string');
+    }
+    return readStorage<string[]>(LEGACY_STORAGE_KEY, []).filter((id) => typeof id === 'string');
+  });
 
   useEffect(() => {
     writeStorage(STORAGE_KEY, productIds);
@@ -47,6 +52,7 @@ export function WishlistProvider({ children }: { children: ReactNode }) {
   return createElement(WishlistContext.Provider, { value }, children);
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useWishlist(): WishlistContextValue {
   const context = useContext(WishlistContext);
   if (!context) throw new Error('useWishlist must be used inside WishlistProvider');

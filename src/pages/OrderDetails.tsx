@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, Ban, CheckCircle2, ChevronRight, Clock, MapPin, Package, ShieldAlert, Truck } from 'lucide-react';
+import { ArrowLeft, Ban, Clock, MapPin, Package } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { apiClient } from '@/services/api';
 import type { Order } from '@/types';
@@ -12,7 +12,7 @@ const STATUS_STEPS = ['Processing', 'Shipped', 'Out for Delivery', 'Delivered'];
 
 export default function OrderDetails() {
   const { orderId } = useParams();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading: authLoading } = useAuth();
   const navigate = useNavigate();
 
   const [order, setOrder] = useState<Order | null>(null);
@@ -20,6 +20,11 @@ export default function OrderDetails() {
   const [cancelling, setCancelling] = useState(false);
 
   useEffect(() => {
+    if (!authLoading && !isAuthenticated) {
+      navigate(`/login?redirect=/orders/${orderId || ''}`);
+      return;
+    }
+
     if (!orderId) return;
     apiClient
       .get(`/orders/${orderId}`)
@@ -28,13 +33,14 @@ export default function OrderDetails() {
           setOrder(res.data.order);
         }
       })
-      .catch((err) => {
-        toast.error(err.response?.data?.message || 'Could not load order.');
+      .catch((err: unknown) => {
+        const axiosErr = err as { response?: { data?: { message?: string } } };
+        toast.error(axiosErr.response?.data?.message || 'Could not load order.');
       })
       .finally(() => {
         setLoading(false);
       });
-  }, [orderId]);
+  }, [orderId, isAuthenticated, authLoading, navigate]);
 
   const handleCancel = async () => {
     if (!order) return;
@@ -49,8 +55,9 @@ export default function OrderDetails() {
       } else {
         toast.error(res.data.message || 'Failed to cancel order.');
       }
-    } catch (err: any) {
-      toast.error(err.response?.data?.message || 'Could not cancel order.');
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      toast.error(axiosErr.response?.data?.message || 'Could not cancel order.');
     } finally {
       setCancelling(false);
     }

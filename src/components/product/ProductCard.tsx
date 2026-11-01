@@ -22,7 +22,7 @@ export default function ProductCard({ product }: ProductCardProps) {
     <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-slate-200 bg-white shadow-card transition duration-300 hover:-translate-y-0.5 hover:shadow-lift">
       <div className="relative">
         <Link
-          to={`/product/${product.id}`}
+          to={`/products/${product.id}`}
           className="block aspect-square overflow-hidden bg-white p-4"
         >
           <ProductImage
@@ -44,7 +44,7 @@ export default function ProductCard({ product }: ProductCardProps) {
       <div className="flex flex-1 flex-col gap-2 p-4">
         <p className="text-xs font-semibold uppercase tracking-wide text-slate-500">{product.brand}</p>
         <Link
-          to={`/product/${product.id}`}
+          to={`/products/${product.id}`}
           className="line-clamp-2 min-h-[2.5rem] text-sm font-semibold leading-snug text-slate-900 hover:text-sky-700"
         >
           {product.name}

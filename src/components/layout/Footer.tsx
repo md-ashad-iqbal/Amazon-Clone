@@ -28,12 +28,12 @@ export default function Footer() {
           <div>
             <h3 className={columnHeading}>Get to Know Us</h3>
             <ul className="space-y-1">
-              <li><Link to="/support#about" className={columnLink}>About ShopSphere</Link></li>
+              <li><Link to="/support#about" className={columnLink}>About Amazon Clone</Link></li>
               <li><Link to="/support" className={columnLink}>Careers</Link></li>
               <li><Link to="/support" className={columnLink}>Press Releases</Link></li>
-              <li><Link to="/support" className={columnLink}>ShopSphere Science</Link></li>
+              <li><Link to="/support" className={columnLink}>Amazon Clone Science</Link></li>
               <li><Link to="/support" className={columnLink}>Investor Relations</Link></li>
-              <li><Link to="/support" className={columnLink}>ShopSphere Devices</Link></li>
+              <li><Link to="/support" className={columnLink}>Amazon Clone Devices</Link></li>
             </ul>
           </div>
 
@@ -41,25 +41,25 @@ export default function Footer() {
           <div>
             <h3 className={columnHeading}>Make Money with Us</h3>
             <ul className="space-y-1">
-              <li><Link to="/support#sell" className={columnLink}>Sell on ShopSphere</Link></li>
-              <li><Link to="/support#sell" className={columnLink}>Sell under ShopSphere Accelerator</Link></li>
+              <li><Link to="/support#sell" className={columnLink}>Sell on Amazon Clone</Link></li>
+              <li><Link to="/support#sell" className={columnLink}>Sell under Amazon Clone Accelerator</Link></li>
               <li><Link to="/support" className={columnLink}>Protect and Build Your Brand</Link></li>
-              <li><Link to="/support" className={columnLink}>ShopSphere Global Selling</Link></li>
+              <li><Link to="/support" className={columnLink}>Amazon Clone Global Selling</Link></li>
               <li><Link to="/support" className={columnLink}>Become an Affiliate</Link></li>
-              <li><Link to="/support" className={columnLink}>Fulfilment by ShopSphere</Link></li>
+              <li><Link to="/support" className={columnLink}>Fulfilment by Amazon Clone</Link></li>
               <li><Link to="/support" className={columnLink}>Advertise Your Products</Link></li>
             </ul>
           </div>
 
           {/* Column 3 */}
           <div>
-            <h3 className={columnHeading}>ShopSphere Payment</h3>
+            <h3 className={columnHeading}>Amazon Clone Payment</h3>
             <ul className="space-y-1">
-              <li><Link to="/support" className={columnLink}>ShopSphere Pay</Link></li>
-              <li><Link to="/support" className={columnLink}>ShopSphere Business Card</Link></li>
+              <li><Link to="/support" className={columnLink}>Amazon Clone Pay</Link></li>
+              <li><Link to="/support" className={columnLink}>Amazon Clone Business Card</Link></li>
               <li><Link to="/support" className={columnLink}>Shop with Points</Link></li>
               <li><Link to="/support" className={columnLink}>Reload Your Balance</Link></li>
-              <li><Link to="/support" className={columnLink}>ShopSphere Currency Converter</Link></li>
+              <li><Link to="/support" className={columnLink}>Currency Converter</Link></li>
               <li><Link to="/support" className={columnLink}>Cash on Delivery (Simulated)</Link></li>
             </ul>
           </div>
@@ -85,7 +85,7 @@ export default function Footer() {
               <ShoppingBag className="h-4 w-4" strokeWidth={2.5} />
             </span>
             <span className="text-lg font-bold">
-              Shop<span className="text-amber-400">Sphere</span>
+              amazon<span className="text-amber-400">clone</span>
             </span>
           </Link>
 
@@ -115,11 +115,11 @@ export default function Footer() {
         <div className="mx-auto max-w-[1300px] px-6">
           <div className="grid grid-cols-2 gap-x-6 gap-y-4 sm:grid-cols-4 md:grid-cols-5">
             <div>
-              <p className="font-bold text-slate-200">ShopSphere Music</p>
+              <p className="font-bold text-slate-200">Amazon Music</p>
               <p className="text-[11px] text-slate-500">Stream millions of songs</p>
             </div>
             <div>
-              <p className="font-bold text-slate-200">ShopSphere Ads</p>
+              <p className="font-bold text-slate-200">Amazon Ads</p>
               <p className="text-[11px] text-slate-500">Reach customers everywhere</p>
             </div>
             <div>
@@ -143,11 +143,11 @@ export default function Footer() {
               <p className="text-[11px] text-slate-500">Movies, TV & Celebrities</p>
             </div>
             <div>
-              <p className="font-bold text-slate-200">ShopSphere Business</p>
+              <p className="font-bold text-slate-200">Amazon Business</p>
               <p className="text-[11px] text-slate-500">Everything for your business</p>
             </div>
             <div>
-              <p className="font-bold text-slate-200">ShopSphere Global</p>
+              <p className="font-bold text-slate-200">Amazon Global</p>
               <p className="text-[11px] text-slate-500">Ship orders internationally</p>
             </div>
             <div>
@@ -163,7 +163,7 @@ export default function Footer() {
               <Link to="/support" className="hover:text-slate-300 hover:underline">Interest-Based Ads</Link>
             </div>
             <p className="mt-2">
-              © 2026 ShopSphere. Educational demo marketplace inspired by Amazon. All trademarks and registered brands belong to their respective owners.
+              © 2026 Amazon Clone. Educational demo marketplace inspired by Amazon. All trademarks, logos and registered brands belong to their respective owners.
             </p>
           </div>
         </div>

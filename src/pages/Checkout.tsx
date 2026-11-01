@@ -1,10 +1,9 @@
 import { useState, useEffect, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { AlertCircle, CheckCircle2, ChevronRight, CreditCard, Lock, MapPin, Plus, ShieldCheck, ShoppingBag, Truck } from 'lucide-react';
+import { AlertCircle, CreditCard, Lock, Plus, ShieldCheck, ShoppingBag, Truck } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
 import { useCart } from '@/context/CartContext';
 import { apiClient } from '@/services/api';
-import type { Address } from '@/types';
 import { formatINR } from '@/utils/format';
 import ProductImage from '@/components/common/ProductImage';
 import toast from 'react-hot-toast';
@@ -141,12 +140,10 @@ export default function Checkout() {
         return;
       }
       toast.error(res.data.message || 'Failed to place order.');
-    } catch (err: any) {
-      // Fallback local simulation if offline
-      const mockOrderId = `ORD-${Date.now().toString().slice(-6)}-${Math.floor(1000 + Math.random() * 9000)}`;
-      clearCart();
-      toast.success('Order placed successfully (Demo Simulation)!');
-      navigate(`/order-success/${mockOrderId}`);
+    } catch (err: unknown) {
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      const msg = axiosErr.response?.data?.message || 'Failed to place order. Please try again.';
+      toast.error(msg);
     } finally {
       setPlacingOrder(false);
     }
@@ -436,7 +433,7 @@ export default function Checkout() {
           </button>
 
           <p className="text-center text-[11px] text-slate-500">
-            By placing your order, you agree to ShopSphere's simulated Privacy Notice and Conditions of Use.
+            By placing your order, you agree to Amazon Clone's simulated Privacy Notice and Conditions of Use.
           </p>
 
           <div className="border-t border-slate-200 pt-4">

@@ -12,7 +12,7 @@ const byList = (query: Parameters<typeof listProducts>[0]) => () =>
 
 export default function Home() {
   const { productIds } = useRecentlyViewed();
-  const { isAuthenticated, user } = useAuth();
+  const { isAuthenticated } = useAuth();
 
   return (
     <div className="flex flex-col gap-8">

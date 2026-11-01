@@ -1,8 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Check, MapPin, Plus, Trash2 } from 'lucide-react';
+import { MapPin, Plus } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import type { Address } from '@/types';
 import toast from 'react-hot-toast';
 
 export default function Addresses() {

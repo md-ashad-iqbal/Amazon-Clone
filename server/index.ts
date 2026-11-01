@@ -11,9 +11,9 @@ async function startServer() {
 
   app.listen(PORT, () => {
     console.log(`====================================================`);
-    console.log(`🚀 ShopSphere API Server running on http://localhost:${PORT}`);
+    console.log(`🚀 Amazon Clone API Server running on http://localhost:${PORT}`);
     console.log(`📡 Healthcheck available at: http://localhost:${PORT}/api/health`);
-    console.log(`👤 Demo Account: demo@shopsphere.com | Password: demo12345`);
+    console.log(`👤 Demo Account: demo@amazonclone.com | Password: demo12345`);
     console.log(`====================================================`);
   });
 }

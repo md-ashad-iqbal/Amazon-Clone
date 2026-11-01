@@ -129,7 +129,7 @@ export default function SearchBar() {
                 onMouseDown={(event) => event.preventDefault()}
                 onClick={() => {
                   setOpen(false);
-                  navigate(`/product/${product.id}`);
+                  navigate(`/products/${product.id}`);
                 }}
                 className="flex w-full items-center gap-3 px-3 py-2 text-left transition hover:bg-slate-100"
               >

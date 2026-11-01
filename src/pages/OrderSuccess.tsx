@@ -1,9 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
-import { CheckCircle2, ChevronRight, PackageCheck, ShoppingBag, Truck } from 'lucide-react';
+import { CheckCircle2, Truck } from 'lucide-react';
 import { apiClient } from '@/services/api';
 import type { Order } from '@/types';
-import { formatINR } from '@/utils/format';
 
 export default function OrderSuccess() {
   const { orderId } = useParams();

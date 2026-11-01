@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#131921"/>
+      <stop offset="50%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#0f172a"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#fbbf24"/>
+      <stop offset="100%" stop-color="#f59e0b"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)"/>
+  
+  <!-- Subtle decorative grid & accents -->
+  <circle cx="1050" cy="120" r="300" fill="#fbbf24" fill-opacity="0.04"/>
+  <circle cx="150" cy="520" r="240" fill="#38bdf8" fill-opacity="0.04"/>
+
+  <!-- Logo Mark -->
+  <g transform="translate(140, 160)">
+    <rect width="90" height="90" rx="20" fill="url(#gold)"/>
+    <path d="M 28 32 L 62 32 L 56 60 L 34 60 Z" fill="#131921"/>
+    <path d="M 38 32 C 38 24 52 24 52 32" fill="none" stroke="#131921" stroke-width="4" stroke-linecap="round"/>
+    
+    <text x="115" y="65" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="64" font-weight="900" fill="#ffffff" letter-spacing="-1">amazon<tspan fill="#fbbf24">clone</tspan><tspan font-size="28" fill="#94a3b8">.in</tspan></text>
+  </g>
+
+  <!-- Tagline -->
+  <text x="140" y="330" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="44" font-weight="800" fill="#f8fafc">
+    Everything you need, delivered fast
+  </text>
+  
+  <text x="140" y="385" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="24" font-weight="400" fill="#94a3b8">
+    Full-stack educational e-commerce application inspired by Amazon
+  </text>
+
+  <!-- Feature Pills -->
+  <g transform="translate(140, 440)">
+    <!-- Pill 1 -->
+    <rect x="0" y="0" width="220" height="50" rx="25" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="35" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="600" fill="#fbbf24">⚡ Instant Search</text>
+    
+    <!-- Pill 2 -->
+    <rect x="240" y="0" width="230" height="50" rx="25" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="275" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="600" fill="#38bdf8">📦 Order Tracking</text>
+
+    <!-- Pill 3 -->
+    <rect x="490" y="0" width="220" height="50" rx="25" fill="#1e293b" stroke="#334155" stroke-width="1.5"/>
+    <text x="525" y="32" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="18" font-weight="600" fill="#4ade80">🛡️ Safe Simulation</text>
+  </g>
+
+  <!-- Bottom notice -->
+  <text x="140" y="550" font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="16" fill="#64748b">
+    Educational demonstration project • Built with React 18, TypeScript, Tailwind CSS, Express &amp; MongoDB
+  </text>
+</svg>

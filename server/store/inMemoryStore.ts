@@ -75,7 +75,7 @@ class InMemoryStore {
     const demoUser: StoreUser = {
       id: demoUserId,
       name: 'Ashad Iqbal',
-      email: 'demo@shopsphere.com',
+      email: 'demo@amazonclone.com',
       passwordHash: demoPasswordHash,
       role: 'customer',
       addresses: [
@@ -162,7 +162,8 @@ class InMemoryStore {
   // User Operations
   getUserByEmail(email: string): StoreUser | undefined {
     const cleanEmail = email.toLowerCase().trim();
-    return Array.from(this.users.values()).find((u) => u.email.toLowerCase() === cleanEmail);
+    const targetEmail = cleanEmail === 'demo@shopsphere.com' ? 'demo@amazonclone.com' : cleanEmail;
+    return Array.from(this.users.values()).find((u) => u.email.toLowerCase() === targetEmail);
   }
 
   getUserById(id: string): StoreUser | undefined {

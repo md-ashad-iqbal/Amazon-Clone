@@ -13,7 +13,9 @@ export const apiClient = axios.create({
 // Interceptor to attach JWT token
 apiClient.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('shopsphere_auth_token');
+    const token =
+      localStorage.getItem('amazon_clone_auth_token') ||
+      localStorage.getItem('shopsphere_auth_token');
     if (token && config.headers) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,7 +30,13 @@ apiClient.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       // If unauthorized on protected route, clean up expired token
-      if (window.location.pathname.startsWith('/checkout') || window.location.pathname.startsWith('/orders') || window.location.pathname.startsWith('/account')) {
+      if (
+        window.location.pathname.startsWith('/checkout') ||
+        window.location.pathname.startsWith('/orders') ||
+        window.location.pathname.startsWith('/account')
+      ) {
+        localStorage.removeItem('amazon_clone_auth_token');
+        localStorage.removeItem('amazon_clone_user');
         localStorage.removeItem('shopsphere_auth_token');
         localStorage.removeItem('shopsphere_user');
       }

@@ -1,8 +1,7 @@
 import { useState, FormEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { CreditCard, Heart, HelpCircle, Lock, LogOut, MapPin, Package, Shield, User, UserCheck } from 'lucide-react';
+import { Heart, HelpCircle, LogOut, MapPin, Package, User, UserCheck } from 'lucide-react';
 import { useAuth } from '@/context/AuthContext';
-import toast from 'react-hot-toast';
 
 export default function Account() {
   const { user, isAuthenticated, logout, updateProfile } = useAuth();

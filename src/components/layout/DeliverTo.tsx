@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { MapPin } from 'lucide-react';
 import { readStorage, writeStorage } from '@/utils/storage';
 
-const STORAGE_KEY = 'shopsphere-delivery-location';
+const STORAGE_KEY = 'amazon_clone_delivery_location';
 const LOCATIONS = ['Mumbai 400001', 'Delhi 110001', 'Bengaluru 560001', 'Hyderabad 500081'];
 
 export default function DeliverTo() {

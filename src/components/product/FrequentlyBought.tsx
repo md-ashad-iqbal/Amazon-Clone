@@ -1,4 +1,5 @@
 import { Plus } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import ProductImage from '@/components/common/ProductImage';
 import { useCart } from '@/context/CartContext';
@@ -40,8 +41,12 @@ export default function FrequentlyBought({ product }: FrequentlyBoughtProps) {
             <li key={item.id} className="flex items-center gap-3">
               {index > 0 && <Plus className="h-4 w-4 text-slate-400" />}
               <div className="w-28">
-                <ProductImage src={item.images[0]} alt={item.name} className="h-24 w-28 rounded-lg bg-white p-2 ring-1 ring-slate-200" />
-                <p className="mt-2 line-clamp-2 text-xs font-medium text-slate-800">{item.name}</p>
+                <Link to={`/products/${item.id}`} className="block overflow-hidden rounded-lg bg-white p-2 ring-1 ring-slate-200 hover:ring-amber-400">
+                  <ProductImage src={item.images[0]} alt={item.name} className="h-24 w-28 object-contain" />
+                </Link>
+                <Link to={`/products/${item.id}`} className="mt-2 block line-clamp-2 text-xs font-medium text-slate-800 hover:text-sky-700">
+                  {item.name}
+                </Link>
                 <p className="text-xs font-semibold text-slate-900">{formatINR(item.price)}</p>
               </div>
             </li>

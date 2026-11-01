@@ -20,14 +20,16 @@ interface AuthContextValue {
 
 const AuthContext = createContext<AuthContextValue | null>(null);
 
-const TOKEN_KEY = 'shopsphere_auth_token';
-const USER_KEY = 'shopsphere_user';
+const TOKEN_KEY = 'amazon_clone_auth_token';
+const USER_KEY = 'amazon_clone_user';
+const LEGACY_TOKEN_KEY = 'shopsphere_auth_token';
+const LEGACY_USER_KEY = 'shopsphere_user';
 
 // Built-in fallback demo account
 const FALLBACK_DEMO_USER: User = {
   id: 'usr_demo_001',
   name: 'Ashad Iqbal',
-  email: 'demo@shopsphere.com',
+  email: 'demo@amazonclone.com',
   role: 'customer',
   addresses: [
     {
@@ -54,9 +56,11 @@ const FALLBACK_DEMO_USER: User = {
 };
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [token, setToken] = useState<string | null>(() => localStorage.getItem(TOKEN_KEY));
+  const [token, setToken] = useState<string | null>(() => {
+    return localStorage.getItem(TOKEN_KEY) || localStorage.getItem(LEGACY_TOKEN_KEY);
+  });
   const [user, setUser] = useState<User | null>(() => {
-    const saved = localStorage.getItem(USER_KEY);
+    const saved = localStorage.getItem(USER_KEY) || localStorage.getItem(LEGACY_USER_KEY);
     if (saved) {
       try {
         return JSON.parse(saved);
@@ -92,8 +96,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string): Promise<boolean> => {
     setIsLoading(true);
+    const cleanEmail = email.toLowerCase().trim();
     try {
-      const res = await apiClient.post('/auth/login', { email, password });
+      const res = await apiClient.post('/auth/login', { email: cleanEmail, password });
       if (res.data.success) {
         setToken(res.data.token);
         setUser(res.data.user);
@@ -104,9 +109,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       toast.error(res.data.message || 'Login failed');
       return false;
-    } catch (err: any) {
+    } catch (err: unknown) {
       // Offline / fallback support
-      if (email.toLowerCase().trim() === 'demo@shopsphere.com' && password === 'demo12345') {
+      if (
+        (cleanEmail === 'demo@amazonclone.com' || cleanEmail === 'demo@shopsphere.com') &&
+        password === 'demo12345'
+      ) {
         const mockToken = 'mock_jwt_token_demo_mode_2026';
         setToken(mockToken);
         setUser(FALLBACK_DEMO_USER);
@@ -115,7 +123,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         toast.success(`Welcome back, Ashad (Demo)!`);
         return true;
       }
-      const msg = err.response?.data?.message || 'Login failed. Please check your credentials.';
+      const axiosErr = err as { response?: { data?: { message?: string } } };
+      const msg = axiosErr.response?.data?.message || 'Login failed. Please check your credentials.';
       toast.error(msg);
       return false;
     } finally {
@@ -137,7 +146,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
       toast.error(res.data.message || 'Registration failed');
       return false;
-    } catch (err: any) {
+    } catch {
       // Local fallback
       const mockUser: User = {
         id: `usr_${Date.now()}`,
@@ -163,6 +172,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
     localStorage.removeItem(TOKEN_KEY);
     localStorage.removeItem(USER_KEY);
+    localStorage.removeItem(LEGACY_TOKEN_KEY);
+    localStorage.removeItem(LEGACY_USER_KEY);
     toast.success('You have signed out.');
   };
 
@@ -295,6 +306,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function useAuth() {
   const context = useContext(AuthContext);
   if (!context) {

@@ -48,14 +48,14 @@ export default function Register() {
             <ShoppingBag className="h-6 w-6" strokeWidth={2.5} />
           </span>
           <span className="text-2xl font-black tracking-tight text-slate-900">
-            Shop<span className="text-amber-500">Sphere</span>
+            amazon<span className="text-amber-500">clone</span>
           </span>
         </Link>
       </div>
 
       <div className="rounded-2xl bg-white p-8 shadow-sm ring-1 ring-slate-200">
         <h1 className="text-2xl font-bold text-slate-900">Create Account</h1>
-        <p className="mt-1 text-sm text-slate-600">Join ShopSphere marketplace today</p>
+        <p className="mt-1 text-sm text-slate-600">Join Amazon Clone marketplace today</p>
 
         <form onSubmit={handleSubmit} className="mt-6 space-y-4">
           <div>
@@ -114,6 +114,7 @@ export default function Register() {
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
                 className="absolute right-3 top-3 text-slate-400 hover:text-slate-600"
+                aria-label="Toggle password visibility"
               >
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </button>
@@ -144,7 +145,7 @@ export default function Register() {
             disabled={submitting}
             className="w-full rounded-lg bg-amber-400 py-2.5 text-sm font-bold text-slate-950 transition hover:bg-amber-500 disabled:opacity-50 shadow-sm"
           >
-            {submitting ? 'Creating account...' : 'Create your ShopSphere account'}
+            {submitting ? 'Creating account...' : 'Create your Amazon Clone account'}
           </button>
         </form>
 

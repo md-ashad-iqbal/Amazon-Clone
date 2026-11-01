@@ -8,6 +8,7 @@ export interface AuthUserPayload {
   role: string;
 }
 
+/* eslint-disable @typescript-eslint/no-namespace */
 declare global {
   namespace Express {
     interface Request {
@@ -15,8 +16,9 @@ declare global {
     }
   }
 }
+/* eslint-enable @typescript-eslint/no-namespace */
 
-const JWT_SECRET = process.env.JWT_SECRET || 'shopsphere-development-jwt-super-secret-key-2026';
+const JWT_SECRET = process.env.JWT_SECRET || 'amazon-clone-super-secure-production-secret-key-2026';
 
 export function generateToken(payload: AuthUserPayload): string {
   return jwt.sign(payload, JWT_SECRET, { expiresIn: '7d' });
@@ -34,7 +36,7 @@ export function authMiddleware(req: Request, res: Response, next: NextFunction):
     const decoded = jwt.verify(token, JWT_SECRET) as AuthUserPayload;
     req.user = decoded;
     next();
-  } catch (err) {
+  } catch {
     res.status(401).json({ success: false, message: 'Invalid or expired authentication token.' });
   }
 }
